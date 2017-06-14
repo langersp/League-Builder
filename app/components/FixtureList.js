@@ -11,7 +11,7 @@ export default class FixtureList extends React.Component {
 
     this.props.fixtures.forEach((fixture) => {
       if(fixture.played==true) {
-        fixtureList.push(<Fixture fixture={fixture} key={fixture.date} />);
+        fixtureList.push(<Fixture fixture={fixture} key={fixture.fixture_id} />);
       } else {
         scheduledList.push(<Fixture fixture={fixture} key={fixture.date} onScoreFormSubmit={this.props.onScoreFormSubmit} />);
       }

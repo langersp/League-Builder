@@ -86,6 +86,7 @@ export default class FixtureForm extends React.Component {
   handleFixtureSubmit(event) {
     event.preventDefault();
     this.props.onFixtureFormSubmit(this.playerData);
+    console.log(this.playerData)
   }
 
   //available players for selection array - function to delete a player

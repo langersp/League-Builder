@@ -2,6 +2,7 @@ var React = require('react');
 var ReactDOM = require('react-dom');
 
 import PlayerOption from './PlayerOption';
+import Player from './Player';
 
 export default class FixtureForm extends React.Component {
 

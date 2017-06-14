@@ -1,5 +1,5 @@
 {
-  "name": "react-app",
+  "name": "league-builder",
   "version": "1.0.0",
   "description": "react starter",
   "main": "index.js",
@@ -10,9 +10,15 @@
   },
   "author": "",
   "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/langersp/League-Builder.git"
+  },
   "dependencies": {
     "react": "^15.5.4",
-    "react-dom": "^15.5.4"
+    "react-dom": "^15.5.4",
+    "webpack": "^2.6.1",
+    "webpack-dev-server": "^2.4.5"
   },
   "devDependencies": {
     "babel-core": "^6.24.1",

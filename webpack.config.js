@@ -8,6 +8,11 @@ var HTMLWebpackPluginConfig = new HTMLWebpackPlugin({
 module.exports = {
 
 	entry: __dirname + '/app/index.js',
+	devServer: {
+		proxy: {
+			"/api": "http://localhost:3000",
+		}
+	},
 	module: {
 		loaders: [
 			{
@@ -21,6 +26,7 @@ module.exports = {
 		filename: 'transformed.js',
 		path: __dirname + '/build'
 	},
-	plugins: [HTMLWebpackPluginConfig]
+	plugins: [HTMLWebpackPluginConfig]	
 
 };
+

@@ -16,79 +16,146 @@ class LeagueTableApp extends React.Component {
 
     //lifting state up - source of truth for other components.
     this.state = {
-      data: {}
+      data: [
+        {
+         players: [],
+         fixtures: [] 
+        }
+      ]
     };
     this.handleFixtureSubmit = this.handleFixtureSubmit.bind(this);
     this.handleScoreSubmit = this.handleScoreSubmit.bind(this);
   }
 
   componentWillMount() {
-    // $.getJSON("./json/user.json", function(json) {
-    //   this.setState({user: json})
-    // }
-    this.setState({data: LEAGUEDATA})
+   
   }
 
-  handleFixtureSubmit(data) {
-    //this.setState({scale: 'c', temperature});
-   
+  componentDidMount() {
 
-    var fix = {
-      "fixture_id":3,
-      "date": "31/05/2017",
-      "played":false,
-      "teams": {
-        "team1": ['Paul Langley','Anthony Gayton','Mark Stiles','Craig Mant','Craig Mant'],
-        "team2": ['Chris Corse','Elna','Chris Farrell','Chris Farrell','Neil']
-      },
-      "score1":10,
-      "score2":0
+    fetch('/api/leaguedata', {
+      method: 'get'
+    }).then(function(response) {
+        return response.json();
+    }).then(function(data) {
+      // data is a JavaScript object
+      this.setState({data: data}) 
+    }.bind(this)).catch(function(err) {
+      // Error :(
+      console.log(err)
+    });
+
+
+
+
+  }
+
+
+  handleFixtureSubmit(team1, team2) {
+  
+    var teams = {
+      "team1": JSON.stringify(team1),
+      "team2": JSON.stringify(team2)
     }
-    console.log("player data")
-    console.log(data);
+      
+    var request = new Request('/api/leaguedata', {
+      method: 'POST', 
+      headers: new Headers({
+        'Content-Type': 'application/json'
+      }),
+      body: JSON.stringify(teams)
+    });
 
-    var newArray = this.state.data;
-    newArray.fixtures.push(fix);
-    this.setState({data: newArray});
-    
+    console.log("Adding fixture:", teams);
+    fetch(request).then(function(response) {
+        return response.json();
+    }).then(function(data) {
+      // data is a JavaScript object
+      this.setState({data: data}) 
+      
+      // console.log(data)
+      // var fixture = data[0].fixtures[0];
+
+      // var newData = this.state;
+      // console.log(newData)
+      //   // We're advised not to modify the state, it's immutable. So, make a copy.
+      // var fixtureModified = this.state.data[0].fixtures.concat(fixture);
+      // newData.fixtures = fixtureModified;
+
+      // console.log(newData)
+      // this.setState({data: newData});
+
+    }.bind(this)).catch(function(err) {
+      // Error :(
+       console.log(err)
+    });
+
   }
 
   handleScoreSubmit(score, fixtureId) {
-    var newArray = this.state.data;
-    console.log(newArray)
-    for(var key in newArray.fixtures) {
-      console.log(fixtureId)
-      if((parseInt(key)+1) == fixtureId) {
+    // var newArray = this.state.data;
+    // console.log(newArray)
+    // for(var key in newArray.fixtures) {
+    //   console.log(fixtureId)
+    //   if((parseInt(key)+1) == fixtureId) {
         
-        console.log("match")
-        //newArray[fixtureId - 1].score1 = 3;
-        newArray.fixtures[fixtureId - 1].score1 = score.score1;
-        newArray.fixtures[fixtureId - 1].score2 = score.score2;
-        newArray.fixtures[fixtureId - 1].played = true;
-        this.setState({data: newArray})
+    //     console.log("match")
+    //     //newArray[fixtureId - 1].score1 = 3;
+    //     newArray.fixtures[fixtureId - 1].score1 = score.score1;
+    //     newArray.fixtures[fixtureId - 1].score2 = score.score2;
+    //     newArray.fixtures[fixtureId - 1].played = true;
+    //     this.setState({data: newArray})
 
-      }
-    }
+    //   }
+    // }
     //newArray.fixtures.push(fix);
    // this.setState({data: })
-   console.log(this.state)
+   console.log(score);
+
+  var scoreData = {
+    "score": score,
+    "fixtureid": fixtureId
+  };
+  console.log(scoreData)
+
+  var request = new Request('/api/updatefixture', {
+      method: 'POST', 
+      headers: new Headers({
+        'Content-Type': 'application/json'
+      }),
+      body: JSON.stringify(scoreData)
+    });
+
+
+    //console.log("Adding fixture:", newPlayerDataArray);
+    fetch(request).then(function(response) {
+        return response.json();
+    }).then(function(data) {
+      // data is a JavaScript object
+      this.setState({data: data}) 
+      console.log(data)
+    }.bind(this)).catch(function(err) {
+      // Error :(
+       console.log(err)
+    });
+
   }
 
 	render() {
     var fixtures = [];
-   
-		return (
-      
+
+  console.log(this.state)
+		return (     
 			<div>
         <Header />
 				<div className='league-table'>
-					<LeagueTable league={this.state.data.players} />
+					<LeagueTable players={this.state.data[0].players} fixtures={this.state.data[0].fixtures} />
 				</div>
 				<div className='fixtures'>
-          <FixtureList fixtures={this.state.data.fixtures} onScoreFormSubmit={this.handleScoreSubmit}  />
+          <FixtureList players={this.state.data[0].players} fixtures={this.state.data[0].fixtures} onScoreFormSubmit={this.handleScoreSubmit}  />
 				</div>
         <div className='fixtures-form'>
-          <FixtureForm players={this.state.data.players} fixtures={this.state.data.fixtures} onFixtureFormSubmit={this.handleFixtureSubmit}  />
+          <FixtureForm players={this.state.data[0].players} fixtures={this.state.data[0].fixtures} onFixtureFormSubmit={this.handleFixtureSubmit}  />
         </div>
         <Footer />
 			</div>
@@ -97,49 +164,6 @@ class LeagueTableApp extends React.Component {
 }
 
 
-
-
-
-//dummy data
-var LEAGUEDATA = {
-  "players": [
-    {"player_id": 1, "name": "Paul Langley", "nickname": "Langers", "played": 0, "points": 0},
-    {"player_id": 2, "name": "Anthony Gayton", "nickname": "Drax", "played": 0, "points": 0}, 
-    {"player_id": 3, "name": "Mark Stiles", "nickname": "Raynaud", "played": 0, "points": 0},
-    {"player_id": 4, "name": "Chris Corse", "nickname": "Eggbum", "played": 0, "points": 0},
-    {"player_id": 5, "name": "Elna", "nickname": "Elna", "played": 0, "points": 0},
-    {"player_id": 6, "name": "Craig Mant", "nickname": "Craigenhead", "played": 0, "points": 0},
-    {"player_id": 7, "name": "Karl", "nickname": "Karl", "played": 0, "points": 0},
-    {"player_id": 8, "name": "Chris Farrell", "nickname": "Fazza", "played": 0, "points": 0},
-    {"player_id": 9, "name": "Paul Lynch", "nickname": "Paul", "played": 0, "points": 0},
-    {"player_id": 10, "name": "Neil", "nickname": "Neil", "played": 0, "points": 0}    
-  ],
-  "fixtures": [
-    {
-      "fixture_id":1,
-      "date": "17/05/2017",
-      "played":true,
-      "teams": {
-        "team1": ['Paul Langley','Anthony Gayton','Mark Stiles','Craig Mant','Craig Mant'],
-        "team2": ['Chris Corse','Elna','Chris Farrell','Chris Farrell','Neil']
-      },
-      "score1":10,
-      "score2":0
-    },
-    {
-      "fixture_id":2,
-      "date": "24/05/2017",
-      "played":false,
-      "teams": {
-        "team1": ['Paul Langley','Anthony Gayton','Mark Stiles','Craig Mant','Craig Mant'],
-        "team2": ['Chris Corse','Elna','Chris Farrell','Chris Farrell','Neil']
-      },
-      "score1":0,
-      "score2":0
-    }
-  ]
-}
-  
  
 ReactDOM.render(
   <LeagueTableApp />,

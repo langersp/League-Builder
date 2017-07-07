@@ -11,31 +11,24 @@ export default class ScoreForm extends React.Component {
       score2: 0
     };
 
-    console.log(this.props.fixture.fixture_id)
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
-
   }
 
   handleChange(event) {
-    
     if(event.target.id == 'score1') {
       this.setState({score1: event.target.value})
     } else {
       this.setState({score2: event.target.value})
     }
-  
   }
 
   handleSubmit(event) {
     event.preventDefault();
- console.log(this.state);
     this.props.onScoreFormSubmit(this.state, this.props.fixture.fixture_id);
-
   }
 
   render() {
-
     return (
       <form onSubmit={this.handleSubmit}>
         <label>Team 1 Score: </label><input type="number" id="score1" value={this.state.score1} onChange={this.handleChange} /><br />
@@ -43,6 +36,6 @@ export default class ScoreForm extends React.Component {
         <input type="submit" value="Add Score" /><br />
       </form>
     )
-
   }
+  
 }

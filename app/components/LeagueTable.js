@@ -1,14 +1,27 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
+const lodash = require('lodash');
 
 import PlayerRow from './PlayerRow'
 
 export default class LeagueTable extends React.Component {
   render() {
-    var rows = [];
-    this.props.league.forEach(function(player) {     
-      rows.push(<PlayerRow player={player} key={player.player_id} />);
+    let rows = [];
+    //use lodash to sort the array by points
+    const sortedPlayers = _.sortBy(this.props.players, 'points', function(n) {
+      return Math.sin(n);
     });
+
+    sortedPlayers.reverse();
+
+    sortedPlayers.forEach(function(player) { 
+      console.log(player.results)
+      const playerPlayed = player.results.length;
+      const lastFive = player.results.slice(Math.max(playerPlayed - 5, 0));
+
+      rows.push(<PlayerRow player={player} key={player.player_id} played={playerPlayed} points={player.points} lastFive={lastFive} />);
+    });
+
     return (
       <table>
         <thead>
@@ -16,6 +29,7 @@ export default class LeagueTable extends React.Component {
             <th>Name</th>
             <th>Played</th>
             <th>Points</th>
+            <th>Last Five</th>
           </tr>
         </thead>
         <tbody>{rows}</tbody>

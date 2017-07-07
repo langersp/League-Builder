@@ -9,8 +9,8 @@ export default class FixtureForm extends React.Component {
   constructor(props) {
     super(props);
     this.playerOptions = [];
-    this.team1Players = [];
-    this.team2Players = [];
+    this.team1Players = [], this.team2Players = [];
+    this.team1PlayersArray = [], this.team2PlayersArray = [];
     //playerData is array of players available for selection. Create copy of props data for immutability
     this.playerData = [...this.props.players];  
     this.divStyle = {
@@ -26,8 +26,17 @@ export default class FixtureForm extends React.Component {
     this.handleFixtureSubmit = this.handleFixtureSubmit.bind(this);
     this.deletePlayer = this.deletePlayer.bind(this);
     this.handleRemove = this.handleRemove.bind(this);
+
+    console.log(this.playerData)
+
   }
 
+  //props have updated - the ajax call in parent has updated so we need to populate 'playerData' with the correct data
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.players != this.props.players) {
+      this.playerData = nextProps.players
+    }
+  }
 
   getPlayerById(playerId) {
 
@@ -40,6 +49,7 @@ export default class FixtureForm extends React.Component {
   }
 
   handleChange(event) {
+    console.log(event.target.value)
     this.setState({selectedPlayer: event.target.value});
     this.setState({selectedTeam: event.target.id});
   }
@@ -54,25 +64,29 @@ export default class FixtureForm extends React.Component {
       if(this.team1Players.length < 5) {
         //push a player component into array. Event handler passed to child
         this.team1Players.push(<Player player={chosenPlayer[0]} key={chosenPlayer[0].player_id} clickHandler={this.handleRemove} />);
+        this.team1PlayersArray.push(chosenPlayer[0].player_id);
         this.deletePlayer();
-        if(this.team1Players.length == 5) {
-          this.playerData.forEach((player,i) => {
-            this.team2Players.push(<Player player={player} key={player.player_id} />);
-         });
-         this.divStyle = {}
-        }
+
+        //logic below doesnt work with more than 10 players so commented out
+        // if(this.team1Players.length == 5) {
+        //   this.playerData.forEach((player,i) => {
+        //     this.team2Players.push(<Player player={player} key={player.player_id} />);
+        //  });
+        //  this.divStyle = {}
+        // }
       } else {
         //alert("Too many players in Team 1!");
       }
     } else {
       if(this.team2Players.length < 5) {
         this.team2Players.push(<Player player={chosenPlayer[0]} key={chosenPlayer[0].player_id} />); 
+        this.team2PlayersArray.push(chosenPlayer[0].player_id)
         this.deletePlayer();
-        if(this.team2Players.length == 5) {
-          this.playerData.forEach((player,i) => {
-          this.team1Players.push(<Player player={player} key={player.player_id} />);
-         });
-        } 
+        // if(this.team2Players.length == 5) {
+        //   this.playerData.forEach((player,i) => {
+        //   this.team1Players.push(<Player player={player} key={player.player_id} />);
+        //  });
+        // } 
       } else {
         //alert("Too many players in Team 2!")
       }
@@ -85,8 +99,7 @@ export default class FixtureForm extends React.Component {
 
   handleFixtureSubmit(event) {
     event.preventDefault();
-    this.props.onFixtureFormSubmit(this.playerData);
-    console.log(this.playerData)
+    this.props.onFixtureFormSubmit(this.team1PlayersArray,  this.team2PlayersArray);
   }
 
   //available players for selection array - function to delete a player

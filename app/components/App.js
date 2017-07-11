@@ -8,8 +8,9 @@ import FixtureForm from './FixtureForm';
 import ScoreForm from './ScoreForm';
 import Footer from './Footer';
 
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
-class LeagueTableApp extends React.Component {
+export default class LeagueTableApp extends React.Component {
 
   constructor(props) {
     super(props);
@@ -145,27 +146,35 @@ class LeagueTableApp extends React.Component {
     var fixtures = [];
 
   console.log(this.state)
-		return (     
-			<div>
-        <Header />
-				<div className='league-table'>
-					<LeagueTable players={this.state.data[0].players} fixtures={this.state.data[0].fixtures} />
-				</div>
-				<div className='fixtures'>
-          <FixtureList players={this.state.data[0].players} fixtures={this.state.data[0].fixtures} onScoreFormSubmit={this.handleScoreSubmit}  />
-				</div>
-        <div className='fixtures-form'>
+		
+    const FixtureListDisplay = () => {
+      return (
+         <FixtureList players={this.state.data[0].players} fixtures={this.state.data[0].fixtures} onScoreFormSubmit={this.handleScoreSubmit}  />
+      );
+    }
+    const LeagueTableDisplay = () => {
+      return (
+          <LeagueTable players={this.state.data[0].players} fixtures={this.state.data[0].fixtures} />
+      );
+    }
+    const FixtureFormDisplay = () => {
+      return (
           <FixtureForm players={this.state.data[0].players} fixtures={this.state.data[0].fixtures} onFixtureFormSubmit={this.handleFixtureSubmit}  />
-        </div>
+      );
+    }
+
+    return (
+      <div>
+        <Header />
+        <main>
+          <Switch>
+            <Route exact path='/' component={LeagueTableDisplay}/>
+            <Route path='/fixtures' component={FixtureListDisplay} />
+            <Route path='/addfixture' component={FixtureFormDisplay} />
+          </Switch>
+        </main>
         <Footer />
-			</div>
-		);
+      </div>
+    )
 	}
 }
-
-
- 
-ReactDOM.render(
-  <LeagueTableApp />,
-  document.getElementById('app')
-);

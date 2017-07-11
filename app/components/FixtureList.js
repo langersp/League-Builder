@@ -1,6 +1,8 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
 
+import App from './App';
+
 import Fixture from './Fixture';
 
 export default class FixtureList extends React.Component {

@@ -1,8 +1,11 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
 
-//var App = require('./components/App');
-
+import { BrowserRouter } from 'react-router-dom';
 import LeagueTableApp from './components/App'
 
-
+ReactDOM.render((
+  <BrowserRouter>
+  	<LeagueTableApp />
+  </BrowserRouter>
+), document.getElementById('app'));

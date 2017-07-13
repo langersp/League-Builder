@@ -12,6 +12,7 @@ export default class Header extends React.Component {
         <li><Link to='/'>Home</Link></li>
         <li><Link to='/fixtures'>Fixtures</Link></li>
         <li><Link to='/addfixture'>Add a Fixture</Link></li>
+        <li><Link to='/addplayer'>Add a Player</Link></li>
       </ul>
     </nav></header>
     )

@@ -15,10 +15,8 @@ export default class LeagueTable extends React.Component {
     sortedPlayers.reverse();
 
     sortedPlayers.forEach(function(player) { 
-      console.log(player.results)
       const playerPlayed = player.results.length;
       const lastFive = player.results.slice(Math.max(playerPlayed - 5, 0));
-
       rows.push(<PlayerRow player={player} key={player.player_id} played={playerPlayed} points={player.points} lastFive={lastFive} />);
     });
 

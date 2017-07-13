@@ -124,6 +124,26 @@ db.collection("leagueBuilderCollection").update({"league_id":1}, { $push:{"fixtu
 
 });
 
+//insert new player
+app.post('/api/addplayer/', function(req, res) {
+  console.log("Req body:", req.body);
+  
+  var newPlayer = {};
+
+  newPlayer.player_id = leagueData[0].players.length + 1;
+  newPlayer.name = req.body.playerName;
+  newPlayer.nickname = req.body.nickName;
+  newPlayer.points = 0;
+  newPlayer.results = [];
+
+  db.collection("leagueBuilderCollection").update({"league_id":1}, { $push:{"players": newPlayer}}, function(err, result) {
+    db.collection("leagueBuilderCollection").find().toArray(function(err, docs) {
+      leagueData = docs;
+      res.json(docs);
+    });
+  });
+
+});
 
 
 // Update a Fixture

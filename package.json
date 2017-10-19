@@ -15,12 +15,16 @@
     "url": "https://github.com/langersp/League-Builder.git"
   },
   "dependencies": {
+    "axios": "^0.16.2",
     "express": "^4.15.3",
     "lodash": "^4.17.4",
     "mongodb": "^2.2.29",
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
+    "react-redux": "^5.0.6",
     "react-router-dom": "^4.1.1",
+    "redux": "^3.7.2",
+    "redux-promise": "^0.5.3",
     "webpack": "^2.6.1",
     "webpack-dev-server": "^2.4.5"
   },

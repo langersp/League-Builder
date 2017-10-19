@@ -1,10 +1,9 @@
-var React = require('react');
-var ReactDOM = require('react-dom');
-
+import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
 import PlayerOption from './PlayerOption';
 import Player from './Player';
 
-export default class FixtureForm extends React.Component {
+export default class FixtureForm extends Component {
 
   constructor(props) {
     super(props);

@@ -1,6 +1,6 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
-const lodash = require('lodash');
+const _ = require('lodash');
 
 import PlayerRow from './PlayerRow'
 
@@ -8,7 +8,7 @@ export default class LeagueTable extends React.Component {
   render() {
     let rows = [];
     //use lodash to sort the array by points
-    const sortedPlayers = _.sortBy(this.props.players, 'points', function(n) {
+    const sortedPlayers = _.sortBy(this.props.players, ['points'], function(n) {
       return Math.sin(n);
     });
 

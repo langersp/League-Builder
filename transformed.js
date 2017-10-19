@@ -8725,13 +8725,13 @@ module.exports = function bind(fn, thisArg) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (immutable) */ __webpack_exports__["a"] = fetchData;
+/* unused harmony export fetchData */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios__ = __webpack_require__(139);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_axios__);
 
 
 const FETCH_DATA = 'fetch_data';
-/* harmony export (immutable) */ __webpack_exports__["b"] = FETCH_DATA;
+/* harmony export (immutable) */ __webpack_exports__["a"] = FETCH_DATA;
 
 
 function fetchData() {
@@ -30621,7 +30621,7 @@ function mapStateToProps(state) {
 	};
 }
 
-/* harmony default export */ __webpack_exports__["a"] = (__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_react_redux__["b" /* connect */])(mapStateToProps, { fetchData: __WEBPACK_IMPORTED_MODULE_3__actions__["a" /* fetchData */] })(FixturesIndex));
+/* harmony default export */ __webpack_exports__["a"] = (__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_react_redux__["b" /* connect */])(mapStateToProps, { fetchFixtures })(FixturesIndex));
 
 /***/ }),
 /* 136 */
@@ -31695,7 +31695,7 @@ __WEBPACK_IMPORTED_MODULE_1_react_dom___default.a.render(__WEBPACK_IMPORTED_MODU
 
 /* harmony default export */ __webpack_exports__["a"] = (function (state = {}, action) {
 	switch (action.type) {
-		case __WEBPACK_IMPORTED_MODULE_1__actions__["b" /* FETCH_DATA */]:
+		case __WEBPACK_IMPORTED_MODULE_1__actions__["a" /* FETCH_DATA */]:
 
 			//use loadash to turn array into object. i.e. Key is Fixture ID and object is entire fixture
 			// this allows us to easily lookup a fixture i.e id lookup of state["4"]

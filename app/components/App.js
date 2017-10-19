@@ -43,6 +43,7 @@ export default class LeagueTableApp extends React.Component {
     }).then(function(data) {
       // data is a JavaScript object
       this.setState({data: data}) 
+      console.log(data)
     }.bind(this)).catch(function(err) {
       // Error :(
       console.log(err)
